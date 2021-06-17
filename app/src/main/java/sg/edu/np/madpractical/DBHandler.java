@@ -76,15 +76,12 @@ public class DBHandler extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + USER;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-
-        if (cursor.moveToFirst())
-        {
-            do {
+        while (cursor.moveToNext()){
                 User user = new User();
                 user.setId(cursor.getInt(0));
                 user.setName(cursor.getString(1));
                 user.setDescription(cursor.getString(2));
-                if(cursor.getString(3).equals(1))
+                if(cursor.getInt(3) == 1)
                 {
                     user.setFollowed(true);
                 }
@@ -93,20 +90,25 @@ public class DBHandler extends SQLiteOpenHelper {
                     user.setFollowed(false);
                 }
                 userArrayList.add(user);
-            }while (cursor.moveToNext());
-            cursor.close();
         }
+        cursor.close();
         db.close();
         return userArrayList;
     }
 
     public void updateUser(User user)
     {
+        SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_FOLLOW, user.getFollowed());
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.update(USER, values, COLUMN_ID + " = ?", (new String[] {String.valueOf(user.getId())}));
-        db.close();
+        if (user.getFollowed())
+        {
+            values.put(COLUMN_FOLLOW, 1);
+        }
+        else
+        {
+            values.put(COLUMN_FOLLOW, 0);
+        }
+        db.update(USER, values, COLUMN_NAME + "=?", new String[]{user.getName()});
     }
 
     public int ranNum()
