@@ -13,12 +13,10 @@ import java.util.Random;
 
 public class ListActivity extends AppCompatActivity {
     ArrayList<User> userList = new ArrayList<>();
-    DBHandler dbHandler = new DBHandler(this);
     private ImageView imageButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_list);
         /*imageButton = findViewById(R.id.imageView);
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -27,6 +25,7 @@ public class ListActivity extends AppCompatActivity {
                 userQuery();
             }
         });*/
+        DBHandler dbHandler = new DBHandler(this);
         userList = dbHandler.getUsers();
         RecyclerView recyclerView = findViewById(R.id.rv);
         UserAdapter userAdapter = new UserAdapter(userList);

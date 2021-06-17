@@ -14,7 +14,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Serializable {
     private final static String TAG = "Main Activity";
-    DBHandler dbHandler = new DBHandler(this);
     private TextView header;
     private TextView desc;
     private Button followBtn;
@@ -22,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        DBHandler dbHandler = new DBHandler(this);
         Intent data = getIntent();
         User user = new User(data.getStringExtra("name"), data.getStringExtra("desc"), data.getBooleanExtra("follow", false));
         user.setId(data.getIntExtra("id" , 0));

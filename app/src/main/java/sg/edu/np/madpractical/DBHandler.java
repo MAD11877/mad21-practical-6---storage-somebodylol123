@@ -34,7 +34,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ArrayList<User> userArrayList = new ArrayList<User>();
         for (int i = 0; i < 20; i ++)
         {
-            User user = new User("name"+ranNum(-1), "description"+ranNum(-1), ranFollow());
+            User user = new User("name"+ranNum(), "description"+ranNum(), ranFollow());
             userArrayList.add(user);
         }
         String CREATE_USER_TABLE = "CREATE TABLE " + USER + "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_NAME + " TEXT,"
@@ -49,7 +49,6 @@ public class DBHandler extends SQLiteOpenHelper {
             values.put(COLUMN_FOLLOW, i.getFollowed());
 
             db.insert(USER,null,values);
-            db.close();
         }
     }
 
@@ -110,17 +109,16 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public int ranNum(int limit)
+    public int ranNum()
     {
         Random random = new Random();
-        int rNum = random.nextInt(limit);
-        return rNum;
+        return random.nextInt();
     }
 
     public boolean ranFollow()
     {
-        int rNum = ranNum(1);
-        if (rNum == 1)
+        Random random = new Random();
+        if (random.nextInt(1) == 1)
         {
             return true;
         }
